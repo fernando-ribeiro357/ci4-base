@@ -1,0 +1,45 @@
+version: '3.9'
+# detalhes em https://docs.docker.com/compose/compose-file/compose-file-v3/
+services:
+  web:
+    build:
+      context: _docker
+      dockerfile: php.Dockerfile
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ./src:/var/www/html/
+    environment:
+      CI_ENVIRONMENT: development
+      # app_baseURL: localhost:8080
+        
+  postgres:
+    build:
+      context: _docker
+      dockerfile: postgres.Dockerfile
+    ports:
+      - "9003:5432"
+    volumes:
+      - ./_db/postgres:/docker-entrypoint-initdb.d/
+    environment:
+      POSTGRES_USER: adm_ci4base
+      POSTGRES_PASSWORD: adm_ci4base
+      POSTGRES_DB: db_ci4base
+   
+  adminer:    
+    image: michalhosna/adminer
+    ports:
+      - "6003:8080"
+    environment:            
+      ADMINER_DRIVER: pgsql
+      ADMINER_SERVER: postgres
+      ADMINER_DB: db_ci4base
+      ADMINER_PASSWORD: adm_ci4base
+      ADMINER_USERNAME: adm_ci4base
+      ADMINER_AUTOLOGIN: 1
+      ADMINER_NAME: CI4-Base
+
+networks:
+  default:
+    name: ci4base_network
