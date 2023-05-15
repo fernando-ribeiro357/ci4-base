@@ -14,7 +14,7 @@
         "psr/log": "^1.1",
         "firebase/php-jwt": "*",
         "codeigniter4/shield": "^1.0@beta",
-        "codeigniter4/settings": "v2.1.1",
+        "codeigniter4/settings": "v2.1.1"
     },
     "require-dev": {
         "codeigniter/coding-standard": "^1.5",
