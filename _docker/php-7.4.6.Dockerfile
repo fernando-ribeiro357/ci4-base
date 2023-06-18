@@ -1,5 +1,5 @@
-#FROM php:7.4.6-apache
-FROM php:8.0-apache-bullseye
+FROM php:7.4.6-apache
+#FROM php:8.0-apache-bullseye
 # Nas versões de PHP abaixo está dando o erro:
 #   ErrorException
 #   strpos(): Passing null to parameter #1 ($haystack) of type string is deprecated
@@ -47,8 +47,8 @@ RUN echo "deb https://deb.debian.org/debian bullseye main " > /etc/apt/sources.l
     docker-php-ext-configure gd --enable-gd --with-jpeg --with-freetype     && \
     docker-php-ext-install gd                                               && \
 # Xdebug 3.1.5 (última versão com suporte a PHP 7.4) \
-#    pecl install xdebug-3.1.5                                               && \
-    pecl install xdebug-3.2.1                                               && \
+    pecl install xdebug-3.1.5                                               && \
+#    pecl install xdebug-3.2.1                                               && \
     docker-php-ext-enable xdebug                                            && \
 # Reduz restrição de TLS devido ao erro 'dh key too small' ao conectar no banco antigo PostgreSQL
     # sed -i 's/MinProtocol = TLSv1.2/MinProtocol = TLSv1.1/g' /etc/ssl/openssl.cnf && \
@@ -85,13 +85,9 @@ COPY webserver/mycert.key /etc/ssl/private/mycert.key
 COPY webserver/php.ini /usr/local/etc/php/php.ini
 
 # Composer
-# RUN apt install git zip unzip -y
-# COPY --from=composer /usr/bin/composer /usr/bin/composer
-# RUN echo "\nexport PATH=\"vendor/bin:\$PATH\"" >> ~/.bashrc
-
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php composer-setup.php --quiet && \
-    rm composer-setup.php
+RUN apt install git zip unzip -y
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+RUN echo "\nexport PATH=\"vendor/bin:\$PATH\"" >> ~/.bashrc
 
 # RUN composer install
 
