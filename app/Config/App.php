@@ -4,7 +4,6 @@ namespace Config;
 
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Session\Handlers\FileHandler;
-use CodeIgniter\Session\Handlers\DatabaseHandler;
 
 class App extends BaseConfig
 {
@@ -110,7 +109,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $appTimezone = 'America/Sao_Paulo';
+    public $appTimezone = 'America/Chicago';
 
     /**
      * --------------------------------------------------------------------------
@@ -153,7 +152,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $sessionDriver = DatabaseHandler::class;
+    public $sessionDriver = FileHandler::class;
 
     /**
      * --------------------------------------------------------------------------
@@ -195,7 +194,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $sessionSavePath = 'ci_sessions';
+    public $sessionSavePath = WRITEPATH . 'session';
 
     /**
      * --------------------------------------------------------------------------
